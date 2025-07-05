@@ -11,7 +11,6 @@ import {
 
 import { isAuthenticated } from "../middlewares/access.middleware";
 import { upload } from "../middlewares/upload.middleware";
-import { createClubSchema } from "../validation/club";
 
 const router = Router();
 
