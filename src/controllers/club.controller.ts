@@ -140,8 +140,7 @@ const getCurrentUserClub = asyncHandler(
     if (!userId) {
       throw SendError.unauthorized("No user found.");
     }
-
-
+  }
 );
 
 const getSingleClub = asyncHandler(async (req: Request, res: Response) => {
