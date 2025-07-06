@@ -11,6 +11,7 @@ interface EnvConfig {
   NODE_ENV?: string;
   IMAGEKIT_PUBLIC_KEY: string;
   IMAGEKIT_PRIVATE_KEY: string;
+  CORS_ORIGIN?: string;
 }
 
 const envConfig: EnvConfig = {
@@ -24,6 +25,10 @@ const envConfig: EnvConfig = {
   NODE_ENV: process.env.NODE_ENV || "development",
   IMAGEKIT_PUBLIC_KEY: process.env.IMAGEKIT_PUBLIC_KEY || "public_key",
   IMAGEKIT_PRIVATE_KEY: process.env.IMAGEKIT_PRIVATE_KEY || "private_key",
+  CORS_ORIGIN:
+    process.env.NODE_ENV === "production"
+      ? process.env.CORS_ORIGIN
+      : "http://localhost:5000",
 };
 
 export default envConfig;

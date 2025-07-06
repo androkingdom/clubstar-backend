@@ -3,6 +3,7 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import { API_URI } from "./constants";
 import errorHandler from "./middlewares/errorHandler.middleware";
+import envConfig from "./config/env";
 
 const app: Express = express();
 
@@ -12,7 +13,7 @@ app.use(express.urlencoded({ extended: true, limit: "50mb" }));
 app.use(cookieParser());
 app.use(
   cors({
-    origin: "http://localhost:5000",
+    origin: envConfig.CORS_ORIGIN,
     credentials: true,
   })
 );
