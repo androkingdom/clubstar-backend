@@ -1,4 +1,5 @@
 import mongoose, { Schema, Document } from "mongoose";
+import mongooseAggregatePaginate from "mongoose-aggregate-paginate-v2";
 
 interface IClubMember extends Document {
   user: mongoose.Types.ObjectId;
@@ -26,6 +27,8 @@ const ClubMemberSchema = new Schema<IClubMember>(
   },
   { timestamps: true }
 );
+
+ClubMemberSchema.plugin(mongooseAggregatePaginate);
 
 export const ClubMember = mongoose.model<IClubMember>(
   "ClubMember",

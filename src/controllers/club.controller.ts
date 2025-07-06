@@ -136,10 +136,17 @@ const deleteClub = asyncHandler(
 
 const getCurrentUserClub = asyncHandler(
   async (req: AuthenticatedRequest, res: Response) => {
+    // get userId from req.user
     const { userId } = req.user as TOKEN_PAYLOAD;
     if (!userId) {
       throw SendError.unauthorized("No user found.");
     }
+
+    // find club where member is current user
+    const myClub = await ClubMember.findOne({
+      user: userId,
+    });
+    
   }
 );
 

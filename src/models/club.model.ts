@@ -1,4 +1,5 @@
 import mongoose, { Schema, Document } from "mongoose";
+import mongooseAggregatePaginate from "mongoose-aggregate-paginate-v2";
 
 export enum ClubVisibility {
   PUBLIC = "public",
@@ -33,5 +34,7 @@ const ClubSchema = new Schema<IClubDoc>(
   },
   { timestamps: true }
 );
+
+ClubSchema.plugin(mongooseAggregatePaginate);
 
 export const Club = mongoose.model<IClubDoc>("Club", ClubSchema);

@@ -19,8 +19,10 @@ export const isAuthenticated = asyncHandler(
     }
 
     const decoded = verifyToken(rawToken, TOKEN_TYPE.ACCESS) as TOKEN_PAYLOAD;
-
     console.log("Access token decoded:", decoded);
+    if (!decoded) {
+      throw SendError.unauthorized();
+    }
 
     const userExists = await User.findById(decoded?.userId);
 
