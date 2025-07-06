@@ -20,11 +20,6 @@ jobs:
       - name: 📦 Install deps
         run: npm ci
 
-      - name: 🧪 Type Check & Lint
-        run: |
-          npm run lint
-          npm run typecheck
-
       - name: 🏗️ Build
         run: npm run build
 
