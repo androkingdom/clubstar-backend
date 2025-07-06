@@ -1,0 +1,35 @@
+name: Backend CI/CD
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: ⬇️ Checkout code
+        uses: actions/checkout@v3
+
+      - name: ⚙️ Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: 📦 Install deps
+        run: npm ci
+
+      - name: 🧪 Type Check & Lint
+        run: |
+          npm run lint
+          npm run typecheck
+
+      - name: 🏗️ Build
+        run: npm run build
+
+      # Optional: Upload build artifacts, run tests, etc.
+
+      # 🚀 Auto-deploy to Render via deploy hook
+      - name: 🔥 Deploy to Render
+        run: curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK }}
