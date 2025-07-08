@@ -1,9 +1,11 @@
 import { z } from "zod";
+import { ClubVisibility } from "../models/club.model";
 
 export const CreateClubSchema = z.object({
-  name: z.string().trim().min(1, "Name is required"),
-  slug: z.string().trim().min(1, "Slug is required"),
-  description: z.string().trim().min(1, "Description is required"),
+  name: z.string().min(2),
+  slug: z.string().min(2),
+  description: z.string().optional(),
+  visibility: z.nativeEnum(ClubVisibility).default(ClubVisibility.PUBLIC),
 });
 export type CreateClub = z.infer<typeof CreateClubSchema>;
 

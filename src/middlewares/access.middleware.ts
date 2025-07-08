@@ -1,4 +1,6 @@
-import { TOKEN_PAYLOAD, TOKEN_TYPE } from "../constants";
+import { TOKEN_PAYLOAD } from "../types";
+import { TOKEN_TYPE } from "../constants";
+
 import asyncHandler from "../utils/asyncHandler";
 import SendError from "../utils/SendError";
 import { Request, NextFunction } from "express";

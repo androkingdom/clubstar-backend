@@ -20,11 +20,11 @@ router.route("/create").post(
   createClub
 );
 
-router.route("/me").get(isAuthenticated, getCurrentUserClub);
+router.route("/me").post(isAuthenticated, getCurrentUserClub);
 
-router.route("/:slug").get(isAuthenticated, getSingleClub);
+router.route("/:slug").post(isAuthenticated, getSingleClub);
 
-router.route("/clubs").get(isAuthenticated, getClubs);
+router.route("/clubs").post(isAuthenticated, getClubs);
 
 router.route("/delete").delete(isAuthenticated, deleteClub);
 

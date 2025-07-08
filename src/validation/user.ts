@@ -1,7 +1,23 @@
 import { z } from "zod";
+import reservedUsernames from "../constants/reservedUsernames.json";
 
 export const UserRegistrationSchema = z.object({
-  username: z.string().trim().min(1, "Username is required"),
+  username: z
+    .string()
+    .trim()
+    .min(3, "Username must be at least 3 characters")
+    .max(20, "Username can't be longer than 20 characters")
+    .regex(
+      /^[a-zA-Z0-9_.]+$/,
+      "Only letters, numbers, underscores, and dots allowed"
+    )
+    .refine((val) => !val.includes("@"), {
+      message: "Username cannot be an email address",
+    })
+    .refine((val) => !reservedUsernames.includes(val.toLowerCase()), {
+      message: "Username is reserved",
+    }),
+
   email: z
     .string()
     .trim()

@@ -11,8 +11,9 @@ import {
   DeleteClub,
   DeleteClubSchema,
 } from "../validation/club";
-import { TOKEN_PAYLOAD, MyClubDTO } from "../constants";
+import { TOKEN_PAYLOAD, MyClubDTO } from "../types";
 import { ClubMember } from "../models/clubMember.model";
+import { Types } from "mongoose";
 
 const createClub = asyncHandler(
   async (req: AuthenticatedRequest, res: Response) => {
@@ -33,11 +34,11 @@ const createClub = asyncHandler(
     }
 
     // check if club already exists
-    const clubExists = await Club.findOne({ name, slug });
+    const clubExists = await Club.findOne({ $or: [{ name }, { slug }] });
     if (clubExists) {
       throw SendError.custom({
         statusCode: 409,
-        message: "Club already exists with this name.",
+        message: "Club already exists with this name or slug.",
       });
     }
 
@@ -62,6 +63,7 @@ const createClub = asyncHandler(
       owner: userId,
       clubIconId: clubIconDetails.fileId,
       clubIconUrl: clubIconDetails.url,
+      visibility: parsed.visibility,
     });
 
     // create member
@@ -143,10 +145,34 @@ const getCurrentUserClub = asyncHandler(
     }
 
     // find club where member is current user
-    const myClub = await ClubMember.findOne({
-      user: userId,
-    });
-    
+    const myClubs = await ClubMember.aggregate([
+      { $match: { user: new Types.ObjectId(userId) } },
+      { $sort: { createdAt: -1 } },
+      {
+        $lookup: {
+          from: "clubs",
+          localField: "club",
+          foreignField: "_id",
+          as: "club",
+        },
+      },
+      {
+        $unwind: {
+          path: "$club",
+          preserveNullAndEmptyArrays: false, // omit broken refs
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          club: 1,
+        },
+      },
+    ]);
+
+    console.log(myClubs);
+
+    return res.status(200).json(SendRes.ok({ myClubs }, "My clubs."));
   }
 );
 

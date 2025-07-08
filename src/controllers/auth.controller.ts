@@ -8,8 +8,10 @@ import {
 } from "../validation/user";
 import { AuthenticatedRequest } from "../middlewares/access.middleware";
 
-import { responseUserData, TOKEN_PAYLOAD } from "../constants";
+import { ResponseUserData, TOKEN_PAYLOAD } from "../types";
 import { TOKEN_TYPE } from "../constants";
+
+
 
 import asyncHandler from "../utils/asyncHandler";
 import SendError from "../utils/SendError";
@@ -83,7 +85,7 @@ const registerUser = asyncHandler(async (req: Request, res: Response) => {
             username: newUser.username,
             email: newUser.email,
             role: newUser.role,
-          } as responseUserData,
+          } as ResponseUserData,
           tokens,
         },
         "User created successfully."
@@ -145,7 +147,7 @@ const loginUser = asyncHandler(async (req: Request, res: Response) => {
             username: userExists.username,
             email: userExists.email,
             role: userExists.role,
-          } as responseUserData,
+          } as ResponseUserData,
           tokens,
         },
         "User logged in successfully."
@@ -240,7 +242,7 @@ const getCurrentUserProfile = asyncHandler(
       username: user.username,
       email: user.email,
       role: user.role,
-    } as responseUserData;
+    } as ResponseUserData;
 
     return res
       .status(200)
@@ -306,7 +308,7 @@ const tokenRefresh = asyncHandler(async (req: Request, res: Response) => {
     username: updatedUser?.username,
     email: updatedUser?.email,
     role: updatedUser?.role,
-  } as responseUserData;
+  } as ResponseUserData;
 
   // send response with cookies
   return res
