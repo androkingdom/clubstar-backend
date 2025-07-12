@@ -170,8 +170,6 @@ const getCurrentUserClub = asyncHandler(
       },
     ]);
 
-    console.log(myClubs);
-
     return res.status(200).json(SendRes.ok({ myClubs }, "My clubs."));
   }
 );

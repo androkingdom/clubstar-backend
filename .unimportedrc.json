@@ -1,0 +1,12 @@
+{
+  "entry": ["src/index.ts", "src/server.ts", "index.js"],
+  "extensions": [".js", ".ts"],
+  "ignorePatterns": [
+    "**/*.test.*",
+    "**/__tests__/**",
+    "node_modules/**",
+    "prisma/**",
+    "migrations/**",
+    "scripts/**"
+  ]
+}

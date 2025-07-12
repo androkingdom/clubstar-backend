@@ -10,6 +10,7 @@ const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
 
     res.status(400).json({
       message: "Validation Failed",
+      code: "BAD_REQUEST",
       errors: formatted.fieldErrors,
       statusCode: 400,
       success: false,
@@ -21,6 +22,7 @@ const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
   if (err instanceof SendError) {
     res.status(err.statusCode).json({
       message: err.message,
+      code: err.code,
       statusCode: err.statusCode,
       success: false,
     });
@@ -30,6 +32,7 @@ const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
 
   res.status(500).json({
     message: "Internal Server Error",
+    code: "INTERNAL_SERVER_ERROR",
     statusCode: 500,
     success: false,
   });

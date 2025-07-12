@@ -11,8 +11,6 @@ import { AuthenticatedRequest } from "../middlewares/access.middleware";
 import { ResponseUserData, TOKEN_PAYLOAD } from "../types";
 import { TOKEN_TYPE } from "../constants";
 
-
-
 import asyncHandler from "../utils/asyncHandler";
 import SendError from "../utils/SendError";
 import SendRes from "../utils/SendRes";
@@ -263,7 +261,7 @@ const tokenRefresh = asyncHandler(async (req: Request, res: Response) => {
   ) as TOKEN_PAYLOAD;
 
   if (!decoded) {
-    throw SendError.forbidden("Invalid refresh token.");
+    throw SendError.custom({message: "Invalid refresh token.", statusCode: 401, code: "INVALID_REFRESH_TOKEN"});
   }
 
   const user = await User.findOne({ _id: decoded.userId });
